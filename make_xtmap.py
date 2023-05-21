@@ -82,5 +82,5 @@ for slit_folder in sorted(glob.glob(slit_folder_uni+"S*")):
 
     xt_map=np.array(xt_map)
     np.savetxt(info_data[0,6]+"xt_map.csv",xt_map.T,delimiter=',')
-    df["dataset"]=folder_in
-    df.to_csv(slit_folder+"/"+"info.csv",index=False)
+    # df["dataset"]=folder_in
+    # df.to_csv(slit_folder+"/"+"info.csv",index=False)
