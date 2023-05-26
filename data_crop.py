@@ -16,8 +16,6 @@ path_to_data=input("Enter the path of the data file: ")
 #path_to_save=input("Enter the path to save the cropped region fits file: ")+"/"
 files=sorted(glob.glob(path_to_data+"/*.fits"))
 
-cmap=matplotlib.colormaps['sdoaia171']
-
 for i in range(np.shape(region_info)[0]):
     region_name=region_info[i,0]
     xi=region_info[i,1]
