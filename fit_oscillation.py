@@ -127,10 +127,10 @@ while toggle==1:
 
     fig=plt.figure(figsize=(8,8))
     plt.imshow(data_osci,origin='lower',cmap=cmap)
-    plt.scatter(t,peak,color='cyan',s=0.5)
+    plt.scatter(t,peak,color='cyan',s=5)
     try:
         sine=sinusoid(t_fit,sine_param[0],sine_param[1],sine_param[2],sine_param[3],sine_param[4])
-        plt.plot(t_fit,sine,color='magenta',linewidth=0.6)
+        plt.plot(t_fit,sine,color='magenta',linewidth=1)
         chi_sq=chi_squared(peak,sine)
         plt.title(r"$A_m=$%.3f km, $P=$%.3f s, $\phi=$%.3f, $k=$%.3f km/s, $\chi^2$=%.3f"%(abs(sine_param[0]*scale),sine_param[1]*cadence,sine_param[2],sine_param[3]*scale/cadence,chi_sq))
     #    plt.savefig(directory+f"xt_map_fit.png",dpi=300)

@@ -32,7 +32,7 @@ for i in range(np.shape(region_info)[0]):
         data=data_file[0].data
         header=data_file[0].header
         crop_data=crop(data,xi,yi,xf,yf)
-        fits.writeto(directory+f"{j}.fits",crop_data,header)
+        fits.writeto(directory+f"{j:04d}.fits",crop_data,header)
 
         # plt.imshow(crop_data**0.35,origin='lower',cmap=cmap)
         # # plt.plot([xi,xf],[yi,yf])
