@@ -64,7 +64,7 @@ def find_peak(y):
 def chi_squared(expected,observed):
     chi=0
     for i in range(len(expected)):
-        chi+=(expected[i]-observed[i*10])**2/expected[i]
+        chi+=(expected[i]-observed[i*10]/expected[i])**2
     return(chi)
     
 directory=input("Enter the path of the slit: ")+"/"
