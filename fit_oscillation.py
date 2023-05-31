@@ -69,7 +69,8 @@ def chi_squared(expected,observed):
     
 directory=input("Enter the path of the slit: ")+"/"
 
-data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float)
+#data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T
+data = np.loadtxt(directory+"xt_map_smooth_201.csv",delimiter=",", dtype=float).T
 
 cadence=3
 scale=135

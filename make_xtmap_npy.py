@@ -27,7 +27,7 @@ import pandas as pd
 from scipy.interpolate import interp1d
 
 def apply_slits(slit,data):
-    x,y=np.split(slit,2,axis=1)
+    y,x=np.split(slit,2,axis=1)
     x1=x+1
     y1=y+1
     x_1=x-1
@@ -41,12 +41,11 @@ def apply_slits(slit,data):
     pix2=[]
     pix3=[]
     pix4=[]
-    for i in range(len(x)):
-        pix0.append(data[slit[i][0],slit[i][1]])
-        pix1.append(data[sl_1[i][0],sl_1[i][1]])
-        pix2.append(data[sl_2[i][0],sl_2[i][1]])
-        pix3.append(data[sl_3[i][0],sl_3[i][1]])
-        pix4.append(data[sl_4[i][0],sl_4[i][1]])
+    pix0=data[x,y].T[0]
+    pix1=data[x1,y1].T[0]
+    pix2=data[x_1,y_1].T[0]
+    pix3=data[x_1,y1].T[0]
+    pix4=data[x1,y_1].T[0]
     inter_slit_1=interp1d(pix_array,pix0,kind='cubic')
     inter_slit_2=interp1d(pix_array,pix1,kind='cubic')
     inter_slit_3=interp1d(pix_array,pix2,kind='cubic')
@@ -82,6 +81,6 @@ for slit_folder in sorted(glob.glob(slit_folder_uni+"S*")):
         xt_map.append(arr)
 
     xt_map=np.array(xt_map)
-    np.savetxt(info_data[0,6]+"xt_map.csv",xt_map.T,delimiter=',')
+    np.savetxt(info_data[0,6]+"xt_map.csv",xt_map,delimiter=',')
     # df["dataset"]=folder_in
     # df.to_csv(slit_folder+"/"+"info.csv",index=False)
