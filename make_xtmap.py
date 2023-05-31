@@ -28,7 +28,7 @@ import pandas as pd
 from scipy.interpolate import interp1d
 
 def apply_slits(slit,data):
-    x,y=np.split(slit,2,axis=1)
+    y,x=np.split(slit,2,axis=1)
     x1=x+1
     y1=y+1
     x_1=x-1
