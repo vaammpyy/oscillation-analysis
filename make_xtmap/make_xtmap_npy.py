@@ -71,8 +71,6 @@ for slit_folder in sorted(glob.glob(slit_folder_uni+"S*")):
     for file in files:
         arr=np.zeros((length,))
         k+=1
-        #file=fits.open(file)
-        #data=file[n].data
         read_file=np.load(file,allow_pickle='TRUE').item()
         data=read_file['data']
         for slit in slits:
@@ -82,5 +80,3 @@ for slit_folder in sorted(glob.glob(slit_folder_uni+"S*")):
 
     xt_map=np.array(xt_map)
     np.savetxt(info_data[0,6]+"xt_map.csv",xt_map,delimiter=',')
-    # df["dataset"]=folder_in
-    # df.to_csv(slit_folder+"/"+"info.csv",index=False)
