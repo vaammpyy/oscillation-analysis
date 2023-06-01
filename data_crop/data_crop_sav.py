@@ -1,12 +1,8 @@
 import numpy as np
 import pandas as pd
-from astropy.io import fits
 from scipy.io.idl import readsav
 from types import SimpleNamespace
 import glob
-import matplotlib
-import matplotlib.pyplot as plt
-import sunpy.visualization.colormaps as cm
 import os
 
 def crop(data,xi,yi,xf,yf):
@@ -28,20 +24,10 @@ for i in range(np.shape(region_info)[0]):
     if not os.path.exists(directory):
         os.makedirs(directory)
     for j in range(len(files)):
-        # data_file=fits.open(files[j])
         df=readsav(files[j], python_dict=True, verbose=True)
         var =  SimpleNamespace(**df)
-        # data=data_file[0].data
-        # header=data_file[0].header
         data=var.data
         header=var.hdr
         crop_data=crop(data,xi,yi,xf,yf)
         var_save={'data':crop_data,'hdr':header}
-        # fits.writeto(directory+f"{j:04d}.fits",crop_data)
         np.save(directory+f"{j:04d}",var_save)
-
-        # plt.imshow(crop_data**0.35,origin='lower',cmap=cmap)
-        # # plt.plot([xi,xf],[yi,yf])
-        # plt.show()
-
-

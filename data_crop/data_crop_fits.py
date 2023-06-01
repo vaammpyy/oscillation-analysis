@@ -2,9 +2,6 @@ import numpy as np
 import pandas as pd
 from astropy.io import fits
 import glob
-import matplotlib
-import matplotlib.pyplot as plt
-import sunpy.visualization.colormaps as cm
 import os
 
 def crop(data,xi,yi,xf,yf):
@@ -31,9 +28,3 @@ for i in range(np.shape(region_info)[0]):
         header=data_file[0].header
         crop_data=crop(data,xi,yi,xf,yf)
         fits.writeto(directory+f"{j:04d}.fits",crop_data,header)
-
-        # plt.imshow(crop_data**0.35,origin='lower',cmap=cmap)
-        # # plt.plot([xi,xf],[yi,yf])
-        # plt.show()
-
-
