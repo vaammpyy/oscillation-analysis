@@ -1,1 +1,0 @@
-# code to plot slits with on the region in megameters
