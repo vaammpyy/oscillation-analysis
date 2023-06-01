@@ -1,3 +1,4 @@
+from astropy.io import fits
 import matplotlib.pyplot as plt
 import matplotlib
 import glob
@@ -29,50 +30,40 @@ vid_name=input("Enter video name: ")
 dpi=300
 gam=eval(input("Enter gamma value: "))
 path_save=input("Enter path to save video: ")
-# left_arcsec=eval(input("Enter the left coordinate in arcsec: "))
-# bottom_arcsec=eval(input("Enter the bottom coordinate in arcsec: "))
 
 os.system("mkdir {}/img".format(folder_in))
 vid_name=folder_in+"/"+vid_name
 img_save=folder_in+"/"+"img/"
-folder_in=folder_in+"/"+"*.npy"
+folder_in=folder_in+"/"+"*.fits"
 
 
 pth_first_file=sorted(glob.glob(folder_in))[0]
 
-#data1=fits.open(pth_first_file)
-df1=np.load(pth_first_file,allow_pickle='TRUE').item()
-data1=df1['data']
-header1=df1['hdr']
-n=0
+data1=fits.open(pth_first_file)
+n=len(data1)-1
+n1=data1[n].header['NAXIS1']
+n2=data1[n].header['NAXIS2']
+cdelt1=data1[n].header['CDELT1']
+cdelt2=data1[n].header['CDELT2']
+crpix1=data1[n].header['CRPIX1']
+crpix2=data1[n].header['CRPIX2']
+crval1=data1[n].header['CRVAL1']
+crval2=data1[n].header['CRVAL2']
+ax1_unit=data1[n].header['CUNIT1']
+ax2_unit=data1[n].header['CUNIT2']
+maxi=abs(0.8*data1[n].header['DATAMAX'])**gam
+mini=abs(data1[n].header['DATAMIN'])**gam
 
-maxi=abs(0.8*header1['DATAMAX'])**gam
-mini=abs(header1['DATAMIN'])**gam
+# maxi=abs(1.1*data1[n].header['DATAMAX'])**gam
+# mini=abs(0.9*data1[n].header['DATAMIN'])**gam
 
-n1=header1['NAXIS1'][0]
-n2=header1['NAXIS2'][0]
-cdelt1=header1['CDELT1'][0]
-cdelt2=header1['CDELT2'][0]
-crpix1=header1['CRPIX1'][0]
-crpix2=header1['CRPIX2'][0]
-crval1=header1['CRVAL1'][0]
-crval2=header1['CRVAL2'][0]
+left=crval1-cdelt1*crpix1
+right=crval1+cdelt1*(n1-crpix1)
 
-left=-121
-right=319
-top=1470
-bottom=1029
+bottom=crval2-cdelt2*crpix2
+top=crval2+cdelt2*(n2-crpix2)
 
-# left=crval1-cdelt1*crpix1+left_arcsec+left_ref
-# right=crval1+cdelt1*(n2-crpix1)+left_arcsec+left_ref
-
-# bottom=crval2-cdelt2*crpix2+bottom_arcsec+bottom_ref
-# top=crval2+cdelt2*(n2-crpix2)+bottom_arcsec+bottom_ref
-#file=fits.open(pth_first_file)
-# df1=readsav(, python_dict=True, verbose=True)
-# var =  SimpleNamespace(**df1)
-# data=var.data
-# header=var.hdr
+file=fits.open(pth_first_file)
 #dat=file[n].data
 
 def bytescale(image):
@@ -83,16 +74,15 @@ def bytescale(image):
     return(image)
 
 def fits_to_img(path_load):
-    df=np.load(path_load,allow_pickle='TRUE').item()
-    dat=df['data']
-    header=df['hdr']
+    file=fits.open(path_load)
+    dat=file[n].data
     gamma_transformed_data=dat**gam
     dat=bytescale(gamma_transformed_data)
 
     plt.figure()
-    plt.title(str(header['DATE_D$OBS'][0])[1::]+ " Frame {}".format(i))
-    plt.xlabel("Solar-X [arcsec]")
-    plt.ylabel("Solar-Y [arcsec]")
+    plt.title(file[n].header['DATE-OBS']+ " Frame {}".format(i))
+    plt.xlabel(ax1_unit)
+    plt.ylabel(ax2_unit)
     plt.imshow(dat,origin='lower',extent=[left,right,bottom,top],cmap=cmap)
     plt.savefig(img_save+"{:03d}".format(i)+".png",dpi=dpi)
     plt.close()
