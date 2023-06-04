@@ -2,3 +2,4 @@
     I checked the drift of the reference pixel for the Li and Long dataset and it turns out that the drift is just about 5pixels (max),
     This correction is not being done as we are making a 5pixel wide slit which will anyway average over the drift effect.
 
+[2] While storing the cropping location in the fitting code x and y coordinates are switched.

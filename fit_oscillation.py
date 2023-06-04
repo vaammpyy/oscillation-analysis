@@ -50,12 +50,13 @@ def find_peak(y):
     com=center_of_mass(y)[0]
     avg=np.average(y)
     maxi=np.argmax(y)
-    std=np.std(y)
+    #std=np.std(y)
+    std=l/6
     try:
         parameters = curve_fit(gaussian, x, y,p0=[com,maxi,std,avg])[0]
         fit_y=gaussian(x,parameters[0],parameters[1],parameters[2],parameters[3])
         index_max=np.argmax(fit_y)
-        if abs(parameters[2])<10 and 0<parameters[1]<l:
+        if abs(parameters[2])<10 and 0<parameters[1]<l-1:
             # return(index_max)
             return(parameters[1])
     except RuntimeError:
@@ -69,8 +70,8 @@ def chi_squared(expected,observed):
     
 directory=input("Enter the path of the slit: ")+"/"
 
-#data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T
-data = np.loadtxt(directory+"xt_map_smooth_201.csv",delimiter=",", dtype=float).T
+data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T**0.04
+#data = np.loadtxt(directory+"xt_map_smooth_201.csv",delimiter=",", dtype=float).T
 
 cadence=3
 scale=135
@@ -80,8 +81,8 @@ cmap=matplotlib.colormaps['sdoaia171']
 toggle=1
 
 while toggle==1:
-    fig=plt.figure()
-    plt.imshow(data,origin='lower',cmap=cmap)
+    fig=plt.figure(figsize=(15,6))
+    plt.imshow(data,origin='lower',cmap=cmap,aspect='auto')
     a=np.array((plt.ginput(2)))
     a=np.asarray(a,dtype='int')
     x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
@@ -95,7 +96,7 @@ while toggle==1:
     plt.show()
     plt.close()
     data_osci=data[left:right,bottom:top]
-    plt.imshow(data_osci,origin='lower',cmap=cmap)
+    plt.imshow(data_osci,origin='lower',cmap=cmap,aspect='auto')
     plt.show()
 
 
@@ -112,7 +113,8 @@ while toggle==1:
 
 
     guess_amplitude=np.max(peak)-np.mean(peak)
-    periods=np.linspace(eval(input("Enter period start: ")),eval(input("Enter period end: ")),1000)
+    #periods=np.linspace(eval(input("Enter period start: ")),eval(input("Enter period end: ")),1000)
+    periods=np.linspace(1,800,1000)
     pgram=lombscargle(t,peak,periods)
     guess_period=periods[np.argmax(pgram)]
     guess_phase=0
@@ -126,8 +128,8 @@ while toggle==1:
     except RuntimeError:
         print("Sinusoidal fit did not converge")
 
-    fig=plt.figure(figsize=(8,8))
-    plt.imshow(data_osci,origin='lower',cmap=cmap)
+    fig=plt.figure(figsize=(15,6))
+    plt.imshow(data_osci,origin='lower',cmap=cmap,aspect='auto')
     plt.scatter(t,peak,color='cyan',s=5)
     try:
         sine=sinusoid(t_fit,sine_param[0],sine_param[1],sine_param[2],sine_param[3],sine_param[4])
@@ -144,6 +146,7 @@ while toggle==1:
         pass
     if toggle_1==1:
         loop_name=input("Enter loop name: ")
+        #loop_name="L"+f"{loop_number}"
         save_path=directory+loop_name+"/"
         os.makedirs(save_path)
         np.savetxt(save_path+"xt_map.csv",data_osci,delimiter=',')
@@ -152,7 +155,7 @@ while toggle==1:
         df_box_loc=pd.DataFrame({"x":[left,right],"y":[bottom,top]})
         df_box_loc.to_csv(save_path+"box_location.csv",index=False)
         fig.savefig(save_path+"oscillation.png",dpi=300)
-        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[abs(sine_param[0]*scale)],"Period [s]":[sine_param[1]*cadence],"Drift Velocity [km/s]":[sine_param[3]*scale/cadence],"Phase":[sine_param[2]],"Chi-squared [pixel]":[chi_sq]})
+        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[abs(sine_param[0]*scale)],"Period [s]":[sine_param[1]*cadence],"Drift Velocity [km/s]":[sine_param[3]*scale/cadence],"Phase":[sine_param[2]],"Off-set":[sine_param[4]*scale],"Chi-squared [pixel]":[chi_sq]})
         df_oscillation_parameter.to_csv(save_path+"oscillation_parameter.csv",index=False)
     toggle=int(input("Enter 1 to re-run the code, 0 to end the code: "))
 

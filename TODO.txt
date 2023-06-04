@@ -1,5 +1,3 @@
-1) [DONE] plot_slits.py: plotting the slits on the cropped region in megameters
-2) [DONE] make_movie_npy_with_slits.py make a movie with slits.
-3) [DONE] plot_region.py plotting the boundary of the region on the main image with name.
-4) [DONE] select_region.py make a program which let's user select multiple regions in the image with multiple menu system to save the region data in R1/Data and save the region in ./region_coords_pixel.csv.
-5) [DONE] select_slits.py this program will let user make multiple slits and then store slits info in a slit_location_pixel.csv file which will later be used by the program to make the slits from this. this should also have a menu system.
+1) [DONE] get the mean value of each of the oscillation
+2) plot_fit.py plot the fitted oscillation with proper axis
+3) plan the method to calculate the foot point of the loop
