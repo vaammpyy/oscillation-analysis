@@ -11,8 +11,6 @@ import pandas as pd
 #     y_points=[]
 #     for i in range(len(x)):
 
-
-
 def slit_pos(x,y,length,w):
     slit_name=[]
     x1=[]
@@ -40,7 +38,8 @@ def slit_pos(x,y,length,w):
 
 cmap= matplotlib.colormaps['sdoaia171']
 
-data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R3/Data/0000.npy"
+#data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R3/Data/0000.npy"
+data_path=input("Enter path of the data file: ")
 path_to_save=input("Enter path to save the slit locations and track coordinates: ")+"/"
 
 df=np.load(data_path,allow_pickle='TRUE').item()
