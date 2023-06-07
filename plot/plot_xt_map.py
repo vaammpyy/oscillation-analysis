@@ -14,6 +14,7 @@ scale=0.135
 cadence=3
 
 xt_map_name=input("Enter the name scheme of <xt-map-name.csv>: ")
+gam=eval(input("Enter the value of gamma: "))
 
 for slit in slits:
     xt_map=pd.read_csv(slit+"/"+xt_map_name)
@@ -27,7 +28,7 @@ for slit in slits:
     top=np.shape(xt_map_data)[0]*scale
     plt.xticks(fontsize=18)
     plt.yticks(fontsize=18)
-    plt.imshow(xt_map_data,origin='lower',extent=[left,right,bottom,top],cmap=cmap,aspect='auto')
+    plt.imshow(xt_map_data**gam,origin='lower',extent=[left,right,bottom,top],cmap=cmap,aspect='auto')
     plt.xlabel("Time [s]",fontsize=22)
     plt.ylabel("Distance [Mm]",fontsize=22)
     plt.title(f"{slit_info_data[0,0]}",fontsize=20)
