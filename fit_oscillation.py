@@ -83,7 +83,7 @@ toggle=1
 while toggle==1:
     fig=plt.figure(figsize=(15,6))
     plt.imshow(data,origin='lower',cmap=cmap,aspect='auto')
-    a=np.array((plt.ginput(2)))
+    a=np.array((plt.ginput(-1,timeout=-1)))
     a=np.asarray(a,dtype='int')
     x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
     y=[a[0,1],a[0,1],a[1,1],a[1,1],a[0,1]]
@@ -155,7 +155,7 @@ while toggle==1:
         df_box_loc=pd.DataFrame({"x":[left,right],"y":[bottom,top]})
         df_box_loc.to_csv(save_path+"box_location.csv",index=False)
         fig.savefig(save_path+"oscillation.png",dpi=300)
-        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[abs(sine_param[0]*scale)],"Period [s]":[sine_param[1]*cadence],"Drift Velocity [km/s]":[sine_param[3]*scale/cadence],"Phase":[sine_param[2]],"Off-set":[sine_param[4]*scale],"Chi-squared [pixel]":[chi_sq]})
+        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[sine_param[0]*scale],"Period [s]":[sine_param[1]*cadence],"Drift Velocity [km/s]":[sine_param[3]*scale/cadence],"Phase":[sine_param[2]],"Off-set":[sine_param[4]*scale],"Chi-squared [pixel]":[chi_sq]})
         df_oscillation_parameter.to_csv(save_path+"oscillation_parameter.csv",index=False)
     toggle=int(input("Enter 1 to re-run the code, 0 to end the code: "))
 
