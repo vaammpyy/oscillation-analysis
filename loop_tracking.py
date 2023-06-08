@@ -6,6 +6,8 @@ import sunpy.visualization.colormaps as cm
 import matplotlib
 import pandas as pd
 
+global loop_name
+
 # def calc_points(x,y,distance):
 #     x_points=[]
 #     y_points=[]
@@ -27,7 +29,7 @@ def slit_pos(x,y,length,w):
         y1_slit_pos=(y[i]+y[i-1])/2-length*np.sin(theta)
         x2_slit_pos=(x[i]+x[i-1])/2+length*np.cos(theta)
         y2_slit_pos=(y[i]+y[i-1])/2+length*np.sin(theta)
-        slit_name.append(f"S{i}")
+        slit_name.append(f"{loop_name}_S{i}")
         x1.append(round(x1_slit_pos))
         x2.append(round(x2_slit_pos))
         y1.append(round(y1_slit_pos))
@@ -41,12 +43,15 @@ cmap= matplotlib.colormaps['sdoaia171']
 #data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R3/Data/0000.npy"
 data_path=input("Enter path of the data file: ")
 path_to_save=input("Enter path to save the slit locations and track coordinates: ")+"/"
+loop_name=input("Enter the loop name: ")
 
 df=np.load(data_path,allow_pickle='TRUE').item()
 data=df['data']
 header=df['hdr']
 
-plt.imshow(data,origin='lower',cmap=cmap)
+gam=0.25
+
+plt.imshow(data**gam,origin='lower',cmap=cmap)
 a=plt.ginput(-1)
 x=[x for x,y in a]
 y=[y for x,y in a]
@@ -62,7 +67,7 @@ x_points=x[0::distance]
 y_points=y[0::distance]
 dictionary=slit_pos(x_points,y_points,length,width)
 fig=plt.figure()
-plt.imshow(data,origin='lower',cmap=cmap)
+plt.imshow(data**gam,origin='lower',cmap=cmap)
 for i in range(len(dictionary["xi"])):
     plt.plot([dictionary["xi"][i],dictionary["xf"][i]],[dictionary["yi"][i],dictionary["yf"][i]],color='cyan')
 plt.plot(x,y,'r')
