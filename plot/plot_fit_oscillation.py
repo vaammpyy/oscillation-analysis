@@ -6,6 +6,10 @@ import glob
 import pandas as pd
 import matplotlib
 import sunpy.visualization.colormaps as cm
+from datetime import datetime, timedelta
+
+d = '2022-03-17 03:18:00'
+dt = datetime.strptime(d, '%Y-%m-%d %H:%M:%S')
 
 scale=135
 cadence=3
@@ -23,15 +27,8 @@ for slit in slits:
         df_loop_center=pd.read_csv(loop+"/"+"loop_center.csv",sep=',',header=0,names=["Frame","Peak center"])
         df_oscillation_parameter=pd.read_csv(loop+"/"+"oscillation_parameter.csv",sep=',',header=0,names=["Amplitude [km]","Period [s]","Drift Velocity [km/s]","Phase","Off-set","Chi-squared [pixel]"])
         df_xt_map=pd.read_csv(loop+"/"+"xt_map.csv",header=None)
+        df_box_loc=pd.read_csv(loop+"/"+"box_location.csv",sep=',',header=0,names=["x","y"])
         xt_map=df_xt_map.to_numpy()
-        # Am=df_oscillation_parameter["Amplitude [km]"][0]/scale
-        # P=df_oscillation_parameter["Period [s]"][0]/cadence
-        # k=df_oscillation_parameter["Drift Velocity [km/s]"][0]/scale*cadence
-        # phi=df_oscillation_parameter["Phase"][0]
-        # Ao=df_oscillation_parameter["Off-set"][0]/scale
-        # loop_x=df_loop_center["Frame"]
-        # loop_y=df_loop_center["Peak center"]
-        # x=np.linspace(0,np.shape(xt_map)[1]-1,1000)
         Am=df_oscillation_parameter["Amplitude [km]"][0]
         P=df_oscillation_parameter["Period [s]"][0]
         k=df_oscillation_parameter["Drift Velocity [km/s]"][0]
@@ -40,16 +37,17 @@ for slit in slits:
         loop_x=df_loop_center["Frame"]*cadence
         loop_y=df_loop_center["Peak center"]*scale*0.001
         x=np.linspace(0,(np.shape(xt_map)[1]-1)*cadence,1000)
+        start_time=dt+timedelta(seconds=int(df_box_loc['y'][0]*cadence))
         fig=plt.figure(figsize=(15,6))
         plt.imshow(xt_map,origin='lower',cmap=cmap,aspect='auto',extent=[0,cadence*np.shape(xt_map)[1],0,0.001*scale*np.shape(xt_map)[0]])
         plt.scatter(loop_x,loop_y,color='cyan',s=5)
-        plt.xlabel("Time [s]")
-        plt.ylabel("Distance [Mm]")
-        plt.title(slit.split("/")[-1]+"/"+loop.split("/")[-1])
+        plt.xlabel(f"Time [s]\nStart time {start_time}",fontsize=14)
+        plt.ylabel("Distance [Mm]",fontsize=14)
+        plt.title("Amplitude= %.0f km, Period= %.0f s"%(abs(Am),abs(P)),fontsize=16)
         plt.plot(x,sinusoid(x,Am,P,phi,k,Ao)*0.001,color='magenta',linewidth=1)
         plt.ylim(bottom=0)
-        plt.show()
-        i+=1
+        fig.savefig(loop+"/"+"fit_oscillation.png",dpi=300)
+        plt.close()
+        # plt.show()
 
-print(i)
 
