@@ -35,9 +35,9 @@ cadence=3
 cmap=matplotlib.colormaps['sdoaia171']
 
 #data_path=input("Enter the path of folder containing Data: ")+"/*.npy"
-data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R2/Data"+"/*.npy"
+data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Data"+"/*.npy"
 # slit_info_path=input("Enter path of info.csv of the slit: ")
-slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R2/Slits/S13/info.csv"
+slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Slits/S4/info.csv"
 print(f"DATA PATH: {data_path}")
 print(f"SLIT PATH: {slit_info_path}")
 loop_path=input("Enter the path of the loop folder: ")+"/"
