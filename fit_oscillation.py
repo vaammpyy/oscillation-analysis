@@ -83,7 +83,7 @@ toggle=1
 while toggle==1:
     fig=plt.figure(figsize=(15,6))
     plt.imshow(data,origin='lower',cmap=cmap,aspect='auto')
-    a=np.array((plt.ginput(-1,timeout=-1)))
+    a=np.array((plt.ginput(2)))
     a=np.asarray(a,dtype='int')
     x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
     y=[a[0,1],a[0,1],a[1,1],a[1,1],a[0,1]]
@@ -94,7 +94,6 @@ while toggle==1:
     mid_frame=int((right+left)/2)
     plt.plot(x,y,c='cyan')
     plt.show()
-    plt.close()
     data_osci=data[left:right,bottom:top]
     plt.imshow(data_osci,origin='lower',cmap=cmap,aspect='auto')
     plt.show()
@@ -113,9 +112,11 @@ while toggle==1:
 
 
     guess_amplitude=np.max(peak)-np.mean(peak)
-    #periods=np.linspace(eval(input("Enter period start: ")),eval(input("Enter period end: ")),1000)
-    periods=np.linspace(1,800,1000)
+    periods=np.linspace(eval(input("Enter period start: ")),eval(input("Enter period end: ")),1000)
+    #periods=np.linspace(1,200,1000)
     pgram=lombscargle(t,peak,periods)
+    # plt.plot(periods,pgram)
+    # plt.show()
     guess_period=periods[np.argmax(pgram)]
     guess_phase=0
     guess_offset=np.mean(peak)

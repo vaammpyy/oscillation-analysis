@@ -28,8 +28,10 @@ global cmap
 
 cmap= matplotlib.colormaps['sdoaia171']
 
-folder_in="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/Data_full/Data"
-vid_name="full"
+# folder_in="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/Data_full/Data"
+folder_in= input("Enter path of the folder containing data files: ")
+# vid_name="full"
+vid_name=input("Enter the name of the video: ")
 dpi=300
 gam=0.35
 path_save="img"
