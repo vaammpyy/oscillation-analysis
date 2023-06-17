@@ -4,6 +4,7 @@ import glob
 import sunpy.visualization.colormaps as cm
 import numpy as np
 import os
+import configparser as cfg
 
 global folder_out
 global i
@@ -29,6 +30,11 @@ vid_name=input("Enter video name: ")
 dpi=300
 gam=eval(input("Enter gamma value: "))
 path_save=input("Enter path to save video: ")
+
+cfg_file=input("Enter the path of config file: ")
+config=cfg.ConfigParser()
+config.read(cfg_file)
+
 # left_arcsec=eval(input("Enter the left coordinate in arcsec: "))
 # bottom_arcsec=eval(input("Enter the bottom coordinate in arcsec: "))
 
@@ -49,31 +55,10 @@ n=0
 maxi=abs(0.8*header1['DATAMAX'])**gam
 mini=abs(header1['DATAMIN'])**gam
 
-n1=header1['NAXIS1'][0]
-n2=header1['NAXIS2'][0]
-cdelt1=header1['CDELT1'][0]
-cdelt2=header1['CDELT2'][0]
-crpix1=header1['CRPIX1'][0]
-crpix2=header1['CRPIX2'][0]
-crval1=header1['CRVAL1'][0]
-crval2=header1['CRVAL2'][0]
-
-left=-121
-right=319
-top=1470
-bottom=1029
-
-# left=crval1-cdelt1*crpix1+left_arcsec+left_ref
-# right=crval1+cdelt1*(n2-crpix1)+left_arcsec+left_ref
-
-# bottom=crval2-cdelt2*crpix2+bottom_arcsec+bottom_ref
-# top=crval2+cdelt2*(n2-crpix2)+bottom_arcsec+bottom_ref
-#file=fits.open(pth_first_file)
-# df1=readsav(, python_dict=True, verbose=True)
-# var =  SimpleNamespace(**df1)
-# data=var.data
-# header=var.hdr
-#dat=file[n].data
+left=eval(config['ARC-SECOND']['left'])
+right=eval(config['ARC-SECOND']['right'])
+top=eval(config['ARC-SECOND']['top'])
+bottom=eval(config['ARC-SECOND']['bottom'])
 
 def bytescale(image):
     image=image-mini
