@@ -34,6 +34,7 @@ import matplotlib
 import sunpy.visualization.colormaps as cm
 import os
 import pandas as pd
+import configparser as cfg
 
 
 def gaussian(x,A,mu,sigma,const):
@@ -70,11 +71,16 @@ def chi_squared(expected,observed):
     
 directory=input("Enter the path of the slit: ")+"/"
 
+config_file=directory+"units.cfg"
+config=cfg.ConfigParser()
+config.read(config_file)
+
+cadence=eval(config['PHYSICAL UNITS']['cadence'])
+scale=eval(config['PHYSICAL UNITS']['scale'])
+
 data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T**0.04
 #data = np.loadtxt(directory+"xt_map_smooth_201.csv",delimiter=",", dtype=float).T
 
-cadence=3
-scale=135
 
 cmap=matplotlib.colormaps['sdoaia171']
 
