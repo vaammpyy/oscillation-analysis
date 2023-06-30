@@ -7,21 +7,24 @@ import matplotlib
 
 global scale
 global cadence
-global Am
-global phi
-global k
-global Ao
-global P
+# global Am
+# global phi
+# global k
+# global Ao
+# global P
 global frame
+global loop_center
 
-def sinusoid(t,Am,P,phi,k,Ao):
-    return(Am*np.sin(2*np.pi*t/P+phi)+k*t+Ao)
+# def sinusoid(t,Am,P,phi,k,Ao):
+#     return(Am*np.sin(2*np.pi*t/P+phi)+k*t+Ao)
 
 def loop_pos():
     if df_slit_info['xi'][0]>df_slit_info['xf'][0]:
-        y=sinusoid(frame, Am, P, phi, k, Ao)-df_loop_info['x'][0]
+        # y=sinusoid(frame, Am, P, phi, k, Ao)-df_loop_info['x'][0]
+        y=loop_center-df_loop_info['x'][0]
     else:
-        y=sinusoid(frame, Am, P, phi, k, Ao)+df_loop_info['x'][0]
+        # y=sinusoid(frame, Am, P, phi, k, Ao)+df_loop_info['x'][0]
+        y=loop_center+df_loop_info['x'][0]
     return(y)
 
 def loop_length(x1,y1,x2,y2):
@@ -37,7 +40,7 @@ cmap=matplotlib.colormaps['sdoaia171']
 #data_path=input("Enter the path of folder containing Data: ")+"/*.npy"
 data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Data"+"/*.npy"
 # slit_info_path=input("Enter path of info.csv of the slit: ")
-slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Slits/S4/info.csv"
+slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Slits/S1/info.csv"
 print(f"DATA PATH: {data_path}")
 print(f"SLIT PATH: {slit_info_path}")
 loop_path=input("Enter the path of the loop folder: ")+"/"
@@ -53,15 +56,18 @@ df_loop_info=pd.read_csv(loop_path+"box_location.csv",sep=',',header=0,names=["x
 start_frame=df_loop_info["y"][0]
 stop_frame=df_loop_info["y"][1]
 
-frame=0
+# df_oscillation_param=pd.read_csv(loop_path+"oscillation_parameter.csv",sep=",",header=0,names=["Amplitude [km]","Period [s]","Drift Velocity [km/s]","Phase","Off-set","Chi-squared [pixel]"])
 
-df_oscillation_param=pd.read_csv(loop_path+"oscillation_parameter.csv",sep=",",header=0,names=["Amplitude [km]","Period [s]","Drift Velocity [km/s]","Phase","Off-set","Chi-squared [pixel]"])
+# Am=df_oscillation_param["Amplitude [km]"][0]/scale
+# P=df_oscillation_param["Period [s]"][0]/cadence
+# k=df_oscillation_param["Drift Velocity [km/s]"][0]/scale*cadence
+# phi=df_oscillation_param["Phase"][0]
+# Ao=df_oscillation_param["Off-set"][0]/scale
 
-Am=df_oscillation_param["Amplitude [km]"][0]/scale
-P=df_oscillation_param["Period [s]"][0]/cadence
-k=df_oscillation_param["Drift Velocity [km/s]"][0]/scale*cadence
-phi=df_oscillation_param["Phase"][0]
-Ao=df_oscillation_param["Off-set"][0]/scale
+df_oscillation=pd.read_csv(loop_path+"loop_center.csv",sep=",",header=0,names=["Frame","Peak center","Peak error"])
+
+frame=df_oscillation["Frame"][0]
+loop_center=df_oscillation['Peak center'][0]
 
 data_oscillation=data_files[start_frame:stop_frame]
 df_data=np.load(data_oscillation[frame],allow_pickle='TRUE').item()
