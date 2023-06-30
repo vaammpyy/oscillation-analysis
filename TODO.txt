@@ -1,12 +1,5 @@
-1) [DONE] get the mean value of each of the oscillation
-2) plot_fit.py plot the fitted oscillation with proper axis
-3) plan the method to calculate the foot point of the loop
+Fitting the loops with the errors bars
+1) error in each of the column pixel value will be pixel value multiplied by the gain.
+2) this error should be inputed in the sigma of the scipy to get the gaussian fit and the error in the peak will be the standard deviation of the gaussian.
+3) save the error in the oscillation parameters in the same file as +-.
 
-LOOP LENGTH
-1) Path to the data files
-2) path to the Loop in oscillations
-3) path to the slit info
-4) Plot the slit on the image
-5) add a croping routine
-6) plot the slit on this image as well
-7) use the cropping info of x and plot take user input for distance 

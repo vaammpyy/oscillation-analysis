@@ -31,7 +31,8 @@ dpi=300
 gam=eval(input("Enter gamma value: "))
 path_save=input("Enter path to save video: ")
 
-cfg_file=input("Enter the path of config file: ")
+# cfg_file=input("Enter the path of config file: ")
+cfg_file=folder_in+"/info/units.cfg"
 config=cfg.ConfigParser()
 config.read(cfg_file)
 

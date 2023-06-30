@@ -7,6 +7,7 @@ import sunpy.visualization.colormaps as cm
 import numpy as np
 import os
 import pandas as pd
+import configparser as cfg
 
 global folder_out
 global j
@@ -36,6 +37,10 @@ gam=eval(input("Enter gamma value: "))
 path_save=input("Enter path to save video: ")
 slit_location_file=input("Enter the path of file slit_location_pixel.csv: ")
 
+cfg_file=folder_in+"/info/units.cfg"
+config=cfg.ConfigParser()
+config.read(cfg_file)
+
 os.system("mkdir {}/img".format(folder_in))
 vid_name=folder_in+"/"+vid_name
 img_save=folder_in+"/"+"img/"
@@ -53,16 +58,7 @@ n=0
 maxi=abs(0.8*header1['DATAMAX'])**gam
 mini=abs(header1['DATAMIN'])**gam
 
-n1=header1['NAXIS1'][0]
-n2=header1['NAXIS2'][0]
-cdelt1=header1['CDELT1'][0]
-cdelt2=header1['CDELT2'][0]
-crpix1=header1['CRPIX1'][0]
-crpix2=header1['CRPIX2'][0]
-crval1=header1['CRVAL1'][0]
-crval2=header1['CRVAL2'][0]
-
-scale=0.135
+scale=eval(config['PHYSICAL UNITS']['scale'])*10**(-3)
 left=0
 right=np.shape(data1)[0]*scale
 top=np.shape(data1)[1]*scale

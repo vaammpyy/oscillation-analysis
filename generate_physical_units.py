@@ -22,6 +22,8 @@ crpix2=header['CRPIX2'][0]
 crval1=header['CRVAL1'][0]
 crval2=header['CRVAL2'][0]
 
+exposure=header=['XPOSURE'][0]
+
 left=crval1-cdelt1*crpix1
 right=crval1+cdelt1*(n1-crpix1)
 
@@ -42,6 +44,9 @@ config['ARC-SECOND']={
     'right':right,
     'bottom':bottom,
     'top':top
+}
+config['IMAGE']={
+    'EXPOSURE':exposure
 }
 
 with open(save_path+"/units.cfg",'w') as configfile:

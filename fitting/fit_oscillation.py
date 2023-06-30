@@ -78,7 +78,7 @@ config.read(config_file)
 cadence=eval(config['PHYSICAL UNITS']['cadence'])
 scale=eval(config['PHYSICAL UNITS']['scale'])
 
-data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T**0.04
+data = np.loadtxt(directory+"xt_map.csv",delimiter=",", dtype=float).T
 #data = np.loadtxt(directory+"xt_map_smooth_201.csv",delimiter=",", dtype=float).T
 
 
@@ -88,7 +88,7 @@ toggle=1
 
 while toggle==1:
     fig=plt.figure(figsize=(15,6))
-    plt.imshow(data,origin='lower',cmap=cmap,aspect='auto')
+    plt.imshow(data**0.04,origin='lower',cmap=cmap,aspect='auto')
     a=np.array((plt.ginput(2)))
     a=np.asarray(a,dtype='int')
     x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
