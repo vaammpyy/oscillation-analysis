@@ -22,7 +22,6 @@ while toggle==1:
     fig, ax=plt.subplots()
     if len(slit_info["slit name"])>0:
         for i in range(len(slit_info["slit name"])):
-            print(i)
             x_slit=[slit_info["xi"][i],slit_info["xf"][i]]
             y_slit=[slit_info["yi"][i],slit_info["yf"][i]]
             #ax.plot([slit_info["yi"][i],slit_info["yf"][i]],[slit_info["xi"][i],slit_info["xf"][i]],c="cyan")
@@ -56,7 +55,6 @@ while toggle==1:
         slit_info["xf"].append(right)
         slit_info["yf"].append(top)
         slit_info["width"].append(slit_width)
-    print(slit_info)
     toggle=int(input("Enter 1 to re-run the code, 0 to end the code: "))
 
 if len(slit_info["slit name"])>0:
