@@ -55,14 +55,16 @@ crpix2=header1['CRPIX2'][0]
 crval1=header1['CRVAL1'][0]
 crval2=header1['CRVAL2'][0]
 
-scale=0.135
+scale=0.105
 left=0
 right=np.shape(data1)[0]*scale
 top=np.shape(data1)[1]*scale
+# right=np.shape(data1)[0]
+# top=np.shape(data1)[1]
 bottom=0
 
-df=pd.read_csv(slit_location_file,sep=',',header=0,names=["slit name","xi","yi","xf","yf","width"])
-data_slits=df.to_numpy()
+slit_info=pd.read_csv(slit_location_file,sep=',',header=0,names=["slit name","xi","yi","xf","yf","width"])
+data_slits=slit_info.to_numpy()
 
 def fits_to_img(path_load):
     df=np.load(path_load,allow_pickle='TRUE').item()
@@ -75,10 +77,14 @@ def fits_to_img(path_load):
     plt.xlabel("Distance [Mm]")
     plt.ylabel("Distance [Mm]")
     for i in range(np.shape(data_slits)[0]):
-        plt.plot([data_slits[i,1]*scale,data_slits[i,3]*scale],[data_slits[i,2]*scale,data_slits[i,4]*scale],label=data_slits[i,0],c='cyan',linewidth=0.8)
-        plt.text((data_slits[i,1]-43)*scale,(data_slits[i,2]+5)*scale,data_slits[i,0],c='magenta',fontsize=8)
-        #plt.text((data_slits[i,1]+3)*scale,(data_slits[i,2]+13)*scale,data_slits[i,0],c='magenta',fontsize=8)
+        # plt.plot([data_slits[i,1]*scale,data_slits[i,3]*scale],[data_slits[i,2]*scale,data_slits[i,4]*scale],label=data_slits[i,0],c='cyan',linewidth=0.8)
+        # plt.plot([data_slits[i,1],data_slits[i,3]],[data_slits[i,2],data_slits[i,4]],label=data_slits[i,0],c='cyan',linewidth=0.8)
+        # # plt.text((data_slits[i,1]-43)*scale,(data_slits[i,2]+5)*scale,data_slits[i,0],c='magenta',fontsize=8)
+        # plt.text((data_slits[i,1]+3)*scale,(data_slits[i,2]+13)*scale,data_slits[i,0],c='magenta',fontsize=8)
+        plt.plot([slit_info["xi"][i]*scale,slit_info["xf"][i]*scale],[slit_info["yi"][i]*scale,slit_info["yf"][i]*scale],c="cyan")
+        plt.text(slit_info["xi"][i]*scale+5*scale,slit_info["yi"][i]*scale+5*scale,slit_info["slit name"][i],c='magenta')
     plt.imshow(dat,origin='lower',extent=[left,right,bottom,top],cmap=cmap)
+    #plt.imshow(dat,origin='lower',cmap=cmap)
     plt.savefig("{}.png".format(img_name),dpi=dpi)
     plt.close()
 

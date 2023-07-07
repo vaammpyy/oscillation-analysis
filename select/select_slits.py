@@ -25,17 +25,23 @@ while toggle==1:
             print(i)
             x_slit=[slit_info["xi"][i],slit_info["xf"][i]]
             y_slit=[slit_info["yi"][i],slit_info["yf"][i]]
-            ax.plot([slit_info["yi"][i],slit_info["yf"][i]],[slit_info["xi"][i],slit_info["xf"][i]],c="cyan")
-            ax.text(y_slit[0]+5,x_slit[0]+5,slit_info["slit name"][i],c='magenta')
+            #ax.plot([slit_info["yi"][i],slit_info["yf"][i]],[slit_info["xi"][i],slit_info["xf"][i]],c="cyan")
+            ax.plot([slit_info["xi"][i],slit_info["xf"][i]],[slit_info["yi"][i],slit_info["yf"][i]],c="cyan")
+            ax.text(x_slit[0]+5,y_slit[0]+5,slit_info["slit name"][i],c='magenta')
     ax.imshow(data,origin='lower',cmap=cmap)
     a=np.array((plt.ginput(2)))
     a=np.asarray(a,dtype='int')
+    #a=np.asarray(a)
     x=[a[0,0],a[1,0]]
     y=[a[0,1],a[1,1]]
-    left=min(a[0,1],a[1,1])
-    right=max(a[0,1],a[1,1])
-    top=max(a[0,0],a[1,0])
-    bottom=min(a[0,0],a[1,0])
+    # left=min(a[0,1],a[1,1])
+    # right=max(a[0,1],a[1,1])
+    # top=max(a[0,0],a[1,0])
+    # bottom=min(a[0,0],a[1,0])
+    left=x[0]
+    bottom=y[0]
+    right=x[1]
+    top=y[1]
     ax.plot(x,y,c='cyan')
     plt.show()
     toggle_1=int(input("Enter 1 to save slit, 0 to skip: "))
@@ -50,6 +56,7 @@ while toggle==1:
         slit_info["xf"].append(right)
         slit_info["yf"].append(top)
         slit_info["width"].append(slit_width)
+    print(slit_info)
     toggle=int(input("Enter 1 to re-run the code, 0 to end the code: "))
 
 if len(slit_info["slit name"])>0:

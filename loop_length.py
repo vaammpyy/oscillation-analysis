@@ -21,26 +21,27 @@ global loop_center
 def loop_pos():
     if df_slit_info['xi'][0]>df_slit_info['xf'][0]:
         # y=sinusoid(frame, Am, P, phi, k, Ao)-df_loop_info['x'][0]
-        y=loop_center-df_loop_info['x'][0]
+        y=loop_center-df_loop_info['y'][0]
     else:
         # y=sinusoid(frame, Am, P, phi, k, Ao)+df_loop_info['x'][0]
-        y=loop_center+df_loop_info['x'][0]
+        y=loop_center+df_loop_info['y'][0]
     return(y)
 
 def loop_length(x1,y1,x2,y2):
     d=((x1-x2)**2+(y1-y2)**2)**0.5
     length=np.pi*d/2
-    length_Mm=length*scale*0.001
-    return(length_Mm)
+    length_Mm=length
+    loop_length=length_Mm*scale*0.001
+    return(loop_length)
 
 scale=135
 cadence=3
 cmap=matplotlib.colormaps['sdoaia171']
 
 #data_path=input("Enter the path of folder containing Data: ")+"/*.npy"
-data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Data"+"/*.npy"
+data_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R2/Data"+"/*.npy"
 # slit_info_path=input("Enter path of info.csv of the slit: ")
-slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R1/Slits/S1/info.csv"
+slit_info_path="/home/vampy/acads/projects/Probing_high_freq_waves_in_corona/Data/solo_L2_EUI-HRIEUV174-IMAGE_2022-03-17T03:18:00_2022-03-17T04:02:00/R2/Slits/S13/info.csv"
 print(f"DATA PATH: {data_path}")
 print(f"SLIT PATH: {slit_info_path}")
 loop_path=input("Enter the path of the loop folder: ")+"/"
@@ -53,8 +54,8 @@ slit_info=df_slit_info.to_numpy()
 
 df_loop_info=pd.read_csv(loop_path+"box_location.csv",sep=',',header=0,names=["x","y"])
 
-start_frame=df_loop_info["y"][0]
-stop_frame=df_loop_info["y"][1]
+start_frame=df_loop_info["x"][0]
+stop_frame=df_loop_info["x"][1]
 
 # df_oscillation_param=pd.read_csv(loop_path+"oscillation_parameter.csv",sep=",",header=0,names=["Amplitude [km]","Period [s]","Drift Velocity [km/s]","Phase","Off-set","Chi-squared [pixel]"])
 
@@ -68,6 +69,7 @@ df_oscillation=pd.read_csv(loop_path+"loop_center.csv",sep=",",header=0,names=["
 
 frame=df_oscillation["Frame"][0]
 loop_center=df_oscillation['Peak center'][0]
+
 
 data_oscillation=data_files[start_frame:stop_frame]
 df_data=np.load(data_oscillation[frame],allow_pickle='TRUE').item()
@@ -107,7 +109,7 @@ while toggle==0:
     plt.ylabel("pixel")
     plt.show()
     loop_length_Mm=loop_length(loop_footpoints[0], loop_footpoints[1],loop_footpoints[2], loop_footpoints[3])   
-    dictonary={"x1":[loop_footpoints[0]],"y1":[loop_footpoints[1]],"x2":[loop_footpoints[2]],"y2":[loop_footpoints[3]],"Loop Length [Mm]":[loop_length_Mm]}
+    dictonary={"x1":[loop_footpoints[0]],"y1":[loop_footpoints[1]],"x2":[loop_footpoints[2]],"y2":[loop_footpoints[3]],"Loop Length [Mm]":[loop_length_Mm],"Length error [Mm]":[loop_length_Mm*0.4]}
     df_loop_length=pd.DataFrame(dictonary)
     toggle=input("Enter 1 to save 0 to re-enter footpoints: ")
 

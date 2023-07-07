@@ -23,16 +23,23 @@ while toggle==1:
     plt.imshow(data,origin='lower',cmap=cmap)
     a=np.array((plt.ginput(2)))
     a=np.asarray(a,dtype='int')
-    x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
-    y=[a[0,1],a[0,1],a[1,1],a[1,1],a[0,1]]
-    left=min(a[0,1],a[1,1])
-    right=max(a[0,1],a[1,1])
-    top=max(a[0,0],a[1,0])
-    bottom=min(a[0,0],a[1,0])
+    # x=[a[0,0],a[1,0],a[1,0],a[0,0],a[0,0]]
+    # y=[a[0,1],a[0,1],a[1,1],a[1,1],a[0,1]]
+    # left=min(a[0,1],a[1,1])
+    # right=max(a[0,1],a[1,1])
+    # top=max(a[0,0],a[1,0])
+    # bottom=min(a[0,0],a[1,0])
+    left=a[0,0]
+    bottom=min(a[0,1],a[1,1])
+    top=max(a[0,1],a[1,1])
+    right=a[0,0]+(top-bottom)
+    x=[left,right,right,left,left]
+    y=[bottom,bottom,top,top,bottom]
     plt.plot(x,y,c='lawngreen')
     plt.show()
-    plt.close()
-    data_region=data[left:right,bottom:top]
+    #plt.close()
+    # data_region=data[left:right,bottom:top]
+    data_region=data[bottom:top,left:right]
     plt.imshow(data_region,origin='lower',cmap=cmap)
     plt.show()
     toggle_1=int(input("Enter 1 to save region, 0 to skip: "))
@@ -41,10 +48,10 @@ while toggle==1:
     if toggle_1==1:
         region_name=input("Enter region name: ")
         region_info["region name"].append(region_name)
-        region_info["xi"].append(left)
-        region_info["yi"].append(bottom)
-        region_info["xf"].append(right)
-        region_info["yf"].append(top)
+        region_info["xi"].append(bottom)
+        region_info["yi"].append(left)
+        region_info["yf"].append(right)
+        region_info["xf"].append(top)
     toggle=int(input("Enter 1 to re-run the code, 0 to end the code: "))
 
 if len(region_info["region name"])>0:
