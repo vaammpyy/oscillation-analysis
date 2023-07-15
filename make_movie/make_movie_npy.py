@@ -80,7 +80,7 @@ def fits_to_img(path_load):
     plt.xlabel("Solar-X [arcsec]")
     plt.ylabel("Solar-Y [arcsec]")
     plt.imshow(dat,origin='lower',extent=[left,right,bottom,top],cmap=cmap)
-    plt.savefig(img_save+"{:03d}".format(i)+".png",dpi=dpi)
+    plt.savefig(img_save+"{:04d}".format(i)+".png",dpi=dpi)
     plt.close()
 
 i=0
@@ -90,6 +90,6 @@ for path_load in sorted(glob.glob(folder_in)):
     print("{}/{}".format(i,len(glob.glob(folder_in))))
     fits_to_img(path_load)
 
-cmd='ffmpeg -framerate 60 -start_number 0 -i {}%3d.png -vcodec mpeg4 -vb 20M '.format(img_save)+'{}.mp4'.format(vid_name)
+cmd='ffmpeg -framerate 60 -start_number 0 -i {}%4d.png -vcodec mpeg4 -vb 20M '.format(img_save)+'{}.mp4'.format(vid_name)
 os.system(cmd)
 os.system("rm -r {}".format(img_save))

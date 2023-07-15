@@ -9,7 +9,7 @@ import sunpy.visualization.colormaps as cm
 import os
 import pandas as pd
 import configparser as cfg
-from uncertainties import ufloat
+#from uncertainties import ufloat
 import glob
 
 def gaussian(x,A,mu,sigma,const):
@@ -129,11 +129,16 @@ while toggle==1:
         sine_param,sine_cov=curve_fit(sinusoid,t,peak,p0=guess,sigma=peak_err,absolute_sigma=True)
         sine_err=np.sqrt(np.diag(sine_cov))
 
-        Am=ufloat(sine_param[0],sine_err[0])*scale
-        P=ufloat(sine_param[1],sine_err[1])*cadence
-        phi=ufloat(sine_param[2],sine_err[2])
-        k=ufloat(sine_param[3],sine_err[3])*scale/cadence
-        Ao=ufloat(sine_param[3],sine_err[3])*scale
+        # Am=ufloat(sine_param[0],sine_err[0])*scale
+        # P=ufloat(sine_param[1],sine_err[1])*cadence
+        # phi=ufloat(sine_param[2],sine_err[2])
+        # k=ufloat(sine_param[3],sine_err[3])*scale/cadence
+        # Ao=ufloat(sine_param[3],sine_err[3])*scale
+        Am,Am_err=sine_param[0]*scale,sine_err[0]*scale
+        P,P_err=sine_param[1]*cadence,sine_err[1]*cadence
+        phi,phi_err=sine_param[2],sine_err[2]
+        k,k_err=sine_param[3]*scale/cadence,sine_err[3]*scale/cadence
+        Ao,Ao_err=sine_param[4]*scale,sine_err[4]*scale
 
     except RuntimeError:
         print("Sinusoidal fit did not converge")
@@ -172,7 +177,7 @@ while toggle==1:
         df_box_loc.to_csv(save_path+"box_location.csv",index=False)
         fig.savefig(save_path+"oscillation.png",dpi=300)
         # df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[sine_param[0]*scale],"Period [s]":[sine_param[1]*cadence],"Drift Velocity [km/s]":[sine_param[3]*scale/cadence],"Phase":[sine_param[2]],"Off-set":[sine_param[4]*scale],"Chi-squared [pixel]":[chi_sq]})
-        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[Am],"Period [s]":[P],"Drift Velocity [km/s]":[k],"Phase":[phi],"Off-set":[Ao],"Chi-squared":[chi_sq]})
+        df_oscillation_parameter=pd.DataFrame({"Amplitude [km]":[Am],"Amplitude error [km]":[Am_err],"Period [s]":[P],"Period error [s]":[P_err],"Drift Velocity [km/s]":[k],"Drift Velocity error [km/s]":[k_err],"Phase":[phi],"Phase error":[phi_err],"Off-set":[Ao],"Off-set error":[Ao_err],"Chi-squared":[chi_sq]})
         df_oscillation_parameter.to_csv(save_path+"oscillation_parameter.csv",index=False)
         df_loop_location=pd.DataFrame({"Loop name":[loop_name],"left":[bottom],"right":[top],"bottom":[left],"top":[right]})
         loop_location_path=directory+"loop_location.csv"

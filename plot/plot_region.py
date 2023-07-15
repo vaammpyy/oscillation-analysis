@@ -54,7 +54,7 @@ for i in range(np.shape(region_info)[0]):
     r1_x=[r1_x1,r1_x1,r1_x2,r1_x2,r1_x1]
     r1_y=[r1_y1,r1_y2,r1_y2,r1_y1,r1_y1]
 
-    plt.plot(r1_x,r1_y,c='lawngreen')
+    plt.plot(r1_x,r1_y,c='lawngreen',linewidth=0.5)
     # plt.plot(r2_x,r2_y,c='lawngreen')
     plt.text(r1_x2-50,r1_y2+50,region_info[i,0],c='lawngreen')
     # plt.text(r2_x2-50,r2_y2+50,"R2",c='lawngreen')
