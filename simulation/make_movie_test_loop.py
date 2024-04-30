@@ -82,6 +82,7 @@ def fits_to_img(path_load):
     # plt.ylabel("Solar-Y [arcsec]")
     # plt.imshow(dat,origin='lower',extent=[left,right,bottom,top],cmap=cmap)
     plt.imshow(dat,origin='lower',cmap=cmap)
+    plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False,labelbottom=False, labelleft=False)
     plt.savefig(img_save+"{:03d}".format(i)+".png",dpi=dpi)
     plt.close()
 

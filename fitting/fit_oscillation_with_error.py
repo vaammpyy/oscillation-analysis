@@ -34,11 +34,18 @@ def find_peak(y,dy):
         # parameters,pcov = curve_fit(gaussian, x, y,p0=[com,maxi,std,avg])
         fit_y=gaussian(x,parameters[0],parameters[1],parameters[2],parameters[3])
         index_max=np.argmax(fit_y)
+        # print(pcov)
+        peak_err=np.sqrt(np.diag(pcov))[1]
+        # peak_err=0.1
         # if 0<parameters[2]<1:
         #     parameters[2]=1
-        if 1<parameters[2]<l/2 and 0<parameters[1]<l-1:
+        # if 1<parameters[2]<l/2 and 0<parameters[1]<l-1:
+        if 0<peak_err<l/2 and 0<parameters[1]<l-1:
             # return(index_max)
-            return(parameters[1],parameters[2])
+            return(parameters[1],peak_err)
+        
+        #print(parameters[1],peak_err)
+#        return(parameters[1],peak_err)
     except RuntimeError:
         pass
 

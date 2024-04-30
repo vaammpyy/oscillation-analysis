@@ -34,11 +34,46 @@ df.to_csv(save_path+"oscillation.csv",index=False)
 for i in range(frames):
     column=np.arange(0,100)
     image=np.zeros((100,100))
+    if frames>200:
+        for j in range(100):
+            x=sinusoid(i,A_sine,P)+(j-50)*np.tan(theta)+50
+            gauss_col=gaussian(column,sigma,x,A_gauss)
+            # #plt.scatter(column,gauss_col)
+            image[::,j]=gauss_col
+        
+        if bkg==1:
+            image=image+np.random.rand(100,100)
+            # image=image+np.ones((100,100))*i
+        else:
+            image=image
+        # image=image
+        frame={'data':image,'frame':i}
+        np.save(save_path+f"{i:04d}.npy",frame)
+        continue
+
+    if frames>100 and frames<200:
+        theta+=1
+        for j in range(100):
+            x=sinusoid(i,A_sine,P)+(j-50)*np.tan(theta)+50
+            gauss_col=gaussian(column,sigma,x,A_gauss)
+            # #plt.scatter(column,gauss_col)
+            image[::,j]=gauss_col
+        
+        if bkg==1:
+            image=image+np.random.rand(100,100)
+            # image=image+np.ones((100,100))*i
+        else:
+            image=image
+        # image=image
+        frame={'data':image,'frame':i}
+        np.save(save_path+f"{i:04d}.npy",frame)
+        continue
+
     for j in range(100):
         x=sinusoid(i,A_sine,P)+(j-50)*np.tan(theta)+50
         gauss_col=gaussian(column,sigma,x,A_gauss)
         # #plt.scatter(column,gauss_col)
-        image[::,j]=gauss_col+j
+        image[::,j]=gauss_col
     
     if bkg==1:
         image=image+np.random.rand(100,100)

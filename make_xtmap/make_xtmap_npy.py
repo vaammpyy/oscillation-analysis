@@ -56,9 +56,10 @@ def apply_slits(slit,data):
     # return((inter_slit_1(pix_array)))
     # return(pix0)
 
-folder_uni=input("Enter path of the folder containing datasets and slits: ")+"/"
+folder_uni=input("Enter path of the folder containing and slits: ")+"/"
+slit_code=input("Enter slit code: ")
 slit_folder_uni=folder_uni+"Slits"+"/"
-for slit_folder in sorted(glob.glob(slit_folder_uni+"S*")):
+for slit_folder in sorted(glob.glob(slit_folder_uni+f"{slit_code}*")):
     xt_map=[]
     k=0
     n=0

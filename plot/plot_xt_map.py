@@ -8,8 +8,9 @@ import numpy as np
 cmap=matplotlib.colormaps['sdoaia171']
 
 path_to_slits=input("Enter the path of folder containitng Slits: ")+"/"
+slit_code=input("Enter slit code: ")
 
-slits=sorted(glob.glob(path_to_slits+"S*"))
+slits=sorted(glob.glob(path_to_slits+f"{slit_code}*"))
 scale=0.135
 cadence=3
 
